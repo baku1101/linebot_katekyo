@@ -36,8 +36,6 @@ ABS_PATH = os.path.dirname(os.path.abspath(sys.argv[0]))
 with open(ABS_PATH+'/conf.json', 'r') as f:
     CONF_DATA = json.load(f)
 
-CHANNEL_SECRET = CONF_DATA['CHANNEL_SECRET']
-CHANNEL_ACCESS_TOKEN = CONF_DATA['CHANNEL_ACCESS_TOKEN']
 # get channel_secret and channel_access_token from your environment variable
 channel_secret = CONF_DATA['CHANNEL_SECRET']
 channel_access_token = CONF_DATA['CHANNEL_ACCESS_TOKEN']
@@ -80,19 +78,15 @@ def callback():
 
     return 'OK'
 
-ON_HEROKU = os.environ.get('ON_HEROKU')
-
-if ON_HEROKU:
-    port = int(os.environ.get('PORT', 17995))  # as per OP comments default is 17995
-else:
-    port = 3000
-
 if __name__ == "__main__":
-    arg_parser = ArgumentParser(
-        usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
-    )
-    arg_parser.add_argument('-p', '--port', type=int, default=port, help='port')
-    arg_parser.add_argument('-d', '--debug', default=False, help='debug')
-    options = arg_parser.parse_args()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
+#    arg_parser = ArgumentParser(
+#        usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
+#    )
+#    arg_parser.add_argument('-p', '--port', type=int, default=5000, help='port')
+#    arg_parser.add_argument('-d', '--debug', default=False, help='debug')
+#    options = arg_parser.parse_args()
+#
+#    app.run(debug=options.debug, port=options.port)
 
-    app.run(debug=options.debug, port=options.port)
