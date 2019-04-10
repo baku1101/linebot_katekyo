@@ -31,9 +31,15 @@ from linebot.models import (
 
 app = Flask(__name__)
 
+ABS_PATH = os.path.dirname(os.path.abspath(sys.argv[0]))
+with open(ABS_PATH+'/conf.json', 'r') as f:
+    CONF_DATA = json.load(f)
+
+CHANNEL_SECRET = CONF_DATA['CHANNEL_SECRET']
+CHANNEL_ACCESS_TOKEN = CONF_DATA['CHANNEL_ACCESS_TOKEN']
 # get channel_secret and channel_access_token from your environment variable
-channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
-channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
+channel_secret = CONF_DATA['CHANNEL_SECRET']
+channel_access_token = CONF_DATA['CHANNEL_ACCESS_TOKEN']
 if channel_secret is None:
     print('Specify LINE_CHANNEL_SECRET as environment variable.')
     sys.exit(1)
