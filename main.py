@@ -178,10 +178,10 @@ def handle_postback(event):
 
 # 友達登録された時の挙動(ここで新規テーブル作ると良い)
 @handler.add(FollowEvent)
+def handle_follow(event):
     profile = line_bot_api.get_profile(event.source.user_id)
     usrname = 'user_' + profile.user_id
     mydatabase.CreateTable(usrname)
-def handle_follow(event):
     line_bot_api.reply_message(
         event.reply_token, TextSendMessage(text='Got follow event'))
 
