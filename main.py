@@ -112,10 +112,10 @@ def handle_text_message(event):
         buttons_template = ButtonsTemplate(
             title='My buttons sample', text='Hello, my buttons', actions=[
                 # startというデータのpostbackeventを発行
-                PostbackAction(label='start', data='start')
-                PostbackAction(label='end', data='end')
-                DatatimePickerAction(label='show', data='show', mode='date')
-                PostbackAction(label='del', data='del')
+                PostbackAction(label='start', data='start'),
+                PostbackAction(label='end', data='end'),
+                DatatimePickerAction(label='show', data='show', mode='date'),
+                PostbackAction(label='del', data='del'),
                 PostbackAction(label='help', data='help')
                 # URIAction(label='Go to line.me', uri='https://line.me'),
                 # PostbackAction(label='ping', data='ping'),
