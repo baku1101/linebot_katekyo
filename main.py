@@ -116,7 +116,8 @@ def handle_text_message(event):
                 PostbackAction(label='end', data='end'),
                 DatetimePickerAction(label='show', data='show', mode='date'),
                 PostbackAction(label='del', data='del'),
-                PostbackAction(label='help', data='help')
+                #PostbackAction(label='help', data='help')
+
                 # URIAction(label='Go to line.me', uri='https://line.me'),
                 # PostbackAction(label='ping', data='ping'),
                 # PostbackAction(label='ping with text', data='ping', text='ping'),
@@ -162,8 +163,8 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=output))
     elif data == 'del':
         mydatabase.DeleteRow(usrname)
-    elif data == 'help':
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='help message'))
+    #elif data == 'help':
+    #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='help message'))
 
 
 #    if event.postback.data == 'ping':
