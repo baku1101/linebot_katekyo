@@ -114,7 +114,7 @@ def handle_text_message(event):
                 # startというデータのpostbackeventを発行
                 PostbackAction(label='start', data='start'),
                 PostbackAction(label='end', data='end'),
-                DatatimePickerAction(label='show', data='show', mode='date'),
+                DatetimePickerAction(label='show', data='show', mode='date'),
                 PostbackAction(label='del', data='del'),
                 PostbackAction(label='help', data='help')
                 # URIAction(label='Go to line.me', uri='https://line.me'),
