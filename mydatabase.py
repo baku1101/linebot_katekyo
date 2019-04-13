@@ -17,6 +17,7 @@ def DropTable(usrname):
     cur.execute("DROP TABLE IF EXISTS {}".format(usrname))
 
 def Start(usrname):
+    CreateTable(usrname)
     if isExistTable(usrname + '_tmp'):
         return False
     cur.execute("CREATE TABLE {}_tmp(start timestamp)".format(usrname))
