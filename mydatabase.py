@@ -34,6 +34,7 @@ def Start(usrname):
     cur.execute("CREATE TABLE {}_tmp(start timestamp)".format(usrname))
     start = datetime.datetime.now()
     cur.execute("INSERT INTO {}_tmp(start) values (?)".format(usrname), (adapt_dtime(start),))
+    return True
 
 # 月をまたぐものは未対応
 def End(usrname):
@@ -44,6 +45,7 @@ def End(usrname):
     start = cur.fetchone()[0]
     cur.execute("INSERT INTO {}(year, month, start, end) VALUES (?,?,?,?)".format(usrname), (end.year, end.month, start, adapt_dtime(end)))
     cur.execute("DROP TABLE {}_tmp".format(usrname))
+    return True
 
 def GetTableByMonth(usrname, year, month):
     cur.execute("SELECT * FROM {} WHERE year = {} AND month = {}".format(usrname, year, month))

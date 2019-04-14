@@ -150,11 +150,11 @@ def handle_postback(event):
     usrname = 'user_' + profile.user_id
     data = event.postback.data
     if data == 'start':
-        message = 'already started' if !mydatabase.Start(usrname) else 'start timer'
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        messageStart = 'start timer' if mydatabase.Start(usrname) else 'already started'
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=messageStart))
     elif data == 'end':
-        message = 'not start yet' if !mydatabase.End(usrname) else 'end timer'
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        messageEnd = 'end timer' if mydatabase.End(usrname) else 'not start yet'
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=messageEnd))
     elif data == 'show':
         date_str = event.postback.params['date']
         year, month, day = date_str.split('-')
