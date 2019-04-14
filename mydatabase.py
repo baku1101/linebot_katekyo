@@ -81,7 +81,6 @@ def GetSumOfMonth(usrname, year, month):
     sum_time = datetime.timedelta(0)
     for row in cur.fetchall():
         sum_time += (convert_dtime(row[3]) - convert_dtime(row[2]))
-    print(sum_time)
     return sum_time
 
 if __name__ == '__main__':

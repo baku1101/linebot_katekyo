@@ -162,6 +162,7 @@ def handle_postback(event):
         output = "record of {}-{}\n".format(year, month)
         for row in rowList:
             output += row[2] + ' - ' + row[3] + '\n'
+        output += "sum: {}".format(mydatabase.GetSumOfMonth(usrname, year, month))
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=output))
     elif data == 'del':
         mydatabase.DeleteRow(usrname)
