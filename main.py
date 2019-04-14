@@ -149,7 +149,7 @@ def handle_text_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     profile = line_bot_api.get_profile(event.source.user_id)
-    usrname = 'user_' + profile.user_id
+    usrname = 'user_' + profile.display_name
     data = event.postback.data
     if data == 'start':
         messageStart = 'start timer' if mydatabase.Start(usrname) else 'already started'
