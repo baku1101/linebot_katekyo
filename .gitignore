@@ -1,3 +1,4 @@
 conf.json
 __pycache__
 database.db
+test.py

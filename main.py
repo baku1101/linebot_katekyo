@@ -103,12 +103,14 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     text = event.message.text
+    profile = line_bot_api.get_profile(event.source.user_id)
+    usrname = 'user_' + profile.display_name
     if text.split()[0] == 'insert':
-        mydatabase.InsertRow(text.split()[1], text.split()[2])
+        mydatabase.InsertRow(usrname, text.split()[1], text.split()[2])
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='inserted row'))
+    elif text == 'help':
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='insert format: Y/m/d H:M'))
     else:
-        profile = line_bot_api.get_profile(event.source.user_id)
-        usrname = 'user_' + profile.display_name
         buttons_template = ButtonsTemplate(
             title='My buttons sample', text='Hello, my buttons', actions=[
                 # startというデータのpostbackeventを発行
