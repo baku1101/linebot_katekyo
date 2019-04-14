@@ -150,18 +150,18 @@ def handle_postback(event):
     usrname = 'user_' + profile.user_id
     data = event.postback.data
     if data == 'start':
-        mydatabase.Start(usrname)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='start timer'))
+        message = 'already started' if !mydatabase.Start(usrname) else 'start timer'
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
     elif data == 'end':
-        mydatabase.End(usrname)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='end timer'))
+        message = 'not start yet' if !mydatabase.End(usrname) else 'end timer'
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
     elif data == 'show':
         date_str = event.postback.params['date']
         year, month, day = date_str.split('-')
         rowList = mydatabase.GetTableByMonth(usrname, year, month)
         output = "record of {}-{}\n".format(year, month)
         for row in rowList:
-            output += row + '\n'
+            output += row[2] + ' - ' + row[3] + '\n'
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=output))
     elif data == 'del':
         mydatabase.DeleteRow(usrname)
