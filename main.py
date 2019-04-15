@@ -55,11 +55,15 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1, x_proto=1)
 # get channel_secret and channel_access_token from your environment variable
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
+dropbox_access_token = os.getenv('DROPBOX_ACCESS_TOKEN', None)
 if channel_secret is None:
     print('Specify LINE_CHANNEL_SECRET as environment variable.')
     sys.exit(1)
 if channel_access_token is None:
     print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
+    sys.exit(1)
+if dropbox_access_token is None:
+    print('Specify DROPBOX_ACCESS_TOKEN as environment variable.')
     sys.exit(1)
 
 line_bot_api = LineBotApi(channel_access_token)
@@ -120,31 +124,10 @@ def handle_text_message(event):
                 PostbackAction(label='end', data='end'),
                 DatetimePickerAction(label='show', data='show', mode='date'),
                 PostbackAction(label='del', data='del'),
-                #PostbackAction(label='help', data='help')
-
-                # URIAction(label='Go to line.me', uri='https://line.me'),
-                # PostbackAction(label='ping', data='ping'),
-                # PostbackAction(label='ping with text', data='ping', text='ping'),
-                # MessageAction(label='Translate Rice', text='米')
             ])
         template_message = TemplateSendMessage(
             alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
-
-#elif text == 'image_carousel':
-#    image_carousel_template = ImageCarouselTemplate(columns=[
-#        ImageCarouselColumn(image_url='https://via.placeholder.com/1024x1024',
-#                            action=DatetimePickerAction(label='datetime',
-#                                                        data='datetime_postback',
-#                                                        mode='datetime')),
-#        ImageCarouselColumn(image_url='https://via.placeholder.com/1024x1024',
-#                            action=DatetimePickerAction(label='date',
-#                                                        data='date_postback',
-#                                                        mode='date'))
-#    ])
-#    template_message = TemplateSendMessage(
-#        alt_text='ImageCarousel alt text', template=image_carousel_template)
-#    line_bot_api.reply_message(event.reply_token, template_message)
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
@@ -168,25 +151,12 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=output))
     elif data == 'del':
         mydatabase.DeleteRow(usrname)
-    #elif data == 'help':
-    #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='help message'))
-
-
-#    if event.postback.data == 'ping':
-#        line_bot_api.reply_message(
-#            event.reply_token, TextSendMessage(text='pong'))
-#    elif event.postback.data == 'datetime_postback':
-#        line_bot_api.reply_message(
-#            event.reply_token, TextSendMessage(text=event.postback.params['datetime']))
-#    elif event.postback.data == 'date_postback':
-#        line_bot_api.reply_message(
-#            event.reply_token, TextSendMessage(text=event.postback.params['date']))
 
 # 友達登録された時の挙動(ここで新規テーブル作ると良い)
 @handler.add(FollowEvent)
 def handle_follow(event):
     profile = line_bot_api.get_profile(event.source.user_id)
-    usrname = 'user_' + profile.user_id
+    usrname = 'user_' + profile.display_name
     mydatabase.CreateTable(usrname)
     line_bot_api.reply_message(
         event.reply_token, TextSendMessage(text='Got follow event'))
@@ -195,7 +165,7 @@ def handle_follow(event):
 @handler.add(UnfollowEvent)
 def handle_unfollow():
     profile = line_bot_api.get_profile(event.source.user_id)
-    usrname = 'user_' + profile.user_id
+    usrname = 'user_' + profile.display_name
     mydatabase.CreateTable(usrname)
     app.logger.info("Got Unfollow event")
 
