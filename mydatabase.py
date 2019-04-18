@@ -64,7 +64,7 @@ def DeleteMonthData(usrname, year, month):
 
 # 直近の1列削除
 def DeleteRow(usrname):
-    cur.execute("SELECT count(*) FROM {}".format(usrname))
+    cur.execute("SELECT max(id) FROM {}".format(usrname))
     bottom = cur.fetchone()[0]
     cur.execute("DELETE FROM {} WHERE id = {}".format(usrname, bottom))
     con.commit()
@@ -86,8 +86,10 @@ def GetSumOfMonth(usrname, year, month):
     return sum_time
 
 if __name__ == '__main__':
-    u = 'name'
+    u = 'usr'
     CreateTable(u)
+    #cur.execute("SELECT max(id) FROM {}".format(u))
+    #print(cur.fetchone()[0])
     #Start(u)
     #time.sleep(1)
     #finish(u)

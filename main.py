@@ -114,7 +114,7 @@ def handle_text_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='insert format:\ninsert Y/m/d H:M Y/m/d H:M'))
     else:
         buttons_template = ButtonsTemplate(
-            title='My buttons sample', text='Hello, my buttons', actions=[
+            title='', text='Hello, my buttons', actions=[
                 # startというデータのpostbackeventを発行
                 PostbackAction(label='start', data='start'),
                 PostbackAction(label='finish', data='finish'),
