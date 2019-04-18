@@ -147,7 +147,7 @@ def handle_postback(event):
             output += start + ' - ' + finish + '\n'
         print("------------")
         h,m,_= str(mydatabase.GetSumOfMonth(usrname, year, month)).split(":")
-        output += "合計: " + h + "時間" m + "分"
+        output += "合計: " + h + "時間" + m + "分"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=output))
     elif data == 'del':
         mydatabase.DeleteRow(usrname)
