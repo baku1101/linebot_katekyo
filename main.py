@@ -145,8 +145,7 @@ def handle_postback(event):
             start = datetime.datetime.strftime(row[2], "%d日 %H:%M")
             finish = datetime.datetime.strftime(row[3], "%H:%M")
             output += start + ' - ' + finish + '\n'
-        sumTime = mydatabase.GetSumOfMonth(usrname, year, month)
-        sumStr = datetime.datetime.strftime(sumTime, "%H:%M")
+        sumStr = str(mydatabase.GetSumOfMonth(usrname, year, month))
         output += "sum: " + sumStr
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=output))
     elif data == 'del':
