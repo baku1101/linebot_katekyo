@@ -145,7 +145,7 @@ def handle_postback(event):
             start = datetime.datetime.strftime(row[2], "%d日 %H:%M")
             finish = datetime.datetime.strftime(row[3], "%H:%M")
             output += start + ' - ' + finish + '\n'
-        print("------------")
+        output += "------------\n"
         h,m,_= str(mydatabase.GetSumOfMonth(usrname, year, month)).split(":")
         output += "合計: " + h + "時間" + m + "分"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=output))
