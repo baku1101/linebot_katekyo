@@ -109,9 +109,9 @@ def handle_text_message(event):
         startTime = text.split()[1] + ' ' + text.split()[2]
         finishTime = text.split()[3] + ' ' + text.split()[4]
         mydatabase.InsertRow(usrname, startTime, finishTime)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='inserted row'))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='記録を挿入しました'))
     elif text == 'help':
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='insert format: Y/m/d H:M'))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='insert format:\ninsert Y/m/d H:M Y/m/d H:M'))
     else:
         buttons_template = ButtonsTemplate(
             title='My buttons sample', text='Hello, my buttons', actions=[
@@ -131,10 +131,10 @@ def handle_postback(event):
     usrname = 'user_' + profile.display_name
     data = event.postback.data
     if data == 'start':
-        messageStart = 'start timer' if mydatabase.Start(usrname) else 'already started'
+        messageStart = 'start timer' if mydatabase.Start(usrname) else 'すでにstartしています'
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=messageStart))
     elif data == 'finish':
-        messageFinish = 'finish timer' if mydatabase.Finish(usrname) else 'not start yet'
+        messageFinish = 'finish timer' if mydatabase.Finish(usrname) else 'まだstartしてないです'
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=messageFinish))
     elif data == 'show':
         date_str = event.postback.params['date']
@@ -151,6 +151,7 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=output))
     elif data == 'del':
         mydatabase.DeleteRow(usrname)
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='直近のデータを削除'))
 
 # 友達登録された時の挙動(ここで新規テーブル作ると良い)
 @handler.add(FollowEvent)
