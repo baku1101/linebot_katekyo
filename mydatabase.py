@@ -4,9 +4,16 @@
 # import sqlite3
 import datetime
 import time
-import apsw
+import psycopg2
+import os
+import sys
 
-con = apsw.Connection("database.db")
+url = os.getenv('DATABASE_URL', None)
+if url is None:
+    print('set DATABASE_URL')
+    sys.exit(1)
+
+con = psycopg2.connect(url)
 cur = con.cursor()
 
 # datetime型を直接データベースに格納できないためadapterとconverterが必要
