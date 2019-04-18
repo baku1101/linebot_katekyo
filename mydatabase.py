@@ -16,27 +16,19 @@ if url is None:
 con = psycopg2.connect(url)
 cur = con.cursor()
 
-## datetime型を直接データベースに格納できないためadapterとconverterが必要
-#def adapt_dtime(dtime):
-#    #datetime.datetime -> str
-#    return dtime.strftime("%Y/%m/%d %H:%M")
-#
-#def convert_dtime(dtime_str):
-#    # bytes -> datetime.time
-#    # sqlite3の内部ではstrもbytesとして保存されているため，str.decode()を挟む
-#    dtime = datetime.datetime.strptime(dtime_str,"%Y/%m/%d %H:%M")
-#    return dtime
-
 def CreateTable(usrname):
+    print("Create is started")
     cur.execute("CREATE TABLE IF NOT EXISTS {} (year int, month int, start timestamp, finish timestamp, id serial primary key);".format(usrname))
-# primary keyの型はint でなく integer じゃないとauto incrementが適用されないので注意
+# primary keyの型はint でなく serial じゃないとauto incrementが適用されないので注意
 
 def DropTable(usrname):
     cur.execute("DROP TABLE IF EXISTS {}".format(usrname))
     con.commit()
 
 def Start(usrname):
+    print("start is started")
     CreateTable(usrname)
+    print("Create is ended")
     if isExistTable(usrname + '_tmp'):
         return False
     cur.execute("CREATE TABLE {}_tmp(start timestamp)".format(usrname))
