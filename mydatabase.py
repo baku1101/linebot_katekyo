@@ -17,7 +17,6 @@ con = psycopg2.connect(url)
 cur = con.cursor()
 
 def CreateTable(usrname):
-    print("Create is started")
     cur.execute("CREATE TABLE IF NOT EXISTS {} (year int, month int, start timestamp, finish timestamp, id serial primary key);".format(usrname))
 # primary keyの型はint でなく serial じゃないとauto incrementが適用されないので注意
 
@@ -26,9 +25,7 @@ def DropTable(usrname):
     con.commit()
 
 def Start(usrname):
-    print("start is started")
     CreateTable(usrname)
-    print("Create is ended")
     if isExistTable(usrname + '_tmp'):
         return False
     cur.execute("CREATE TABLE {}_tmp(start timestamp)".format(usrname))

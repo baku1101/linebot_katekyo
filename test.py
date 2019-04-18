@@ -19,6 +19,8 @@ if __name__ == '__main__':
     print("sum: ", mydatabase.GetSumOfMonth(u, t.year, t.month))
     l = mydatabase.GetTableByMonth(u, t.year, t.month)
     for row in l:
-        print(row)
+        start = datetime.datetime.strftime(row[2], "%d日 %H:%M")
+        finish = datetime.datetime.strftime(row[3], "%H:%M")
+        print(start + ' - ' + finish)
         #rd = datetime.datetime(row)
         #print(rd.strftime("%Y/%m/%d %H:%M"))
