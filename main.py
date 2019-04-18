@@ -107,8 +107,8 @@ def handle_text_message(event):
     usrname = 'user_' + profile.display_name
     if text.split()[0] == 'insert':
         startTime = text.split()[1] + ' ' + text.split()[2]
-        endTime = text.split()[3] + ' ' + text.split()[4]
-        mydatabase.InsertRow(usrname, startTime, endTime)
+        finishTime = text.split()[3] + ' ' + text.split()[4]
+        mydatabase.InsertRow(usrname, startTime, finishTime)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='inserted row'))
     elif text == 'help':
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='insert format: Y/m/d H:M'))
@@ -117,7 +117,7 @@ def handle_text_message(event):
             title='My buttons sample', text='Hello, my buttons', actions=[
                 # startというデータのpostbackeventを発行
                 PostbackAction(label='start', data='start'),
-                PostbackAction(label='end', data='end'),
+                PostbackAction(label='finish', data='finish'),
                 DatetimePickerAction(label='show', data='show', mode='date'),
                 PostbackAction(label='del', data='del'),
             ])
@@ -133,9 +133,9 @@ def handle_postback(event):
     if data == 'start':
         messageStart = 'start timer' if mydatabase.Start(usrname) else 'already started'
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=messageStart))
-    elif data == 'end':
-        messageEnd = 'end timer' if mydatabase.End(usrname) else 'not start yet'
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=messageEnd))
+    elif data == 'finish':
+        messageFinish = 'finish timer' if mydatabase.Finish(usrname) else 'not start yet'
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=messageFinish))
     elif data == 'show':
         date_str = event.postback.params['date']
         year, month, day = date_str.split('-')
